@@ -10,18 +10,17 @@ const PORT = process.env.PORT || 8000;
 var client_id = process.env.SPOTIFY_CLIENT_ID;
 var client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 
-var env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV || "development";
 
-var redirect_uri;
-var redirect_to_front;
+const redirect_uri =
+  env == "production"
+    ? "https://appstatify-api.herokuapp.com/callback"
+    : "http://localhost:8000/callback";
 
-if (env == "production") {
-  redirect_uri = "https://appstatify-api.herokuapp.com/callback";
-  redirect_to_front = "https://appstatify.herokuapp.com?";
-} else {
-  redirect_uri = "http://localhost:8000/callback";
-  redirect_to_front = "http://localhost:4200?";
-}
+var redirect_to_front =
+  env == "production"
+    ? "https://appstatify.herokuapp.com?"
+    : "http://localhost:4200?";
 
 const app = express();
 app.use(cors());
